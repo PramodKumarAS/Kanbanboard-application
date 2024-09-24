@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/589957875e.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="tool-content">
+        <div class="task-color">
+            <div title="Todo" id="lightpink" class="lightpink color"></div>
+            <div title="Active" id="lightgreen" class="lightgreen color"></div>
+            <div title="Done" id="lightblue" class="lightblue color"></div>
+            <div title="Review" id="black" class="black color"></div>
+        </div>
+
+        <div class="add-remove">
+            <div title="Add New Task Ticket" class="add">                
+                <i class="fa-solid fa-plus"></i>
+            </div>
+            <div title="Activate the delete" class="remove">                
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>  
+            <div title="Removes all the tickets" id="removeAll"><button class="removeAll">Remove All</button></div>
+            <div title="Removes all the filters" id="filter"><button class="reset">Remove Filter</button></div>
+    </div>
+        <div class="main-cont">
+    
+      
+        </div>
+    </div>
+
+    <div class="modal-cont">
+        <textarea class="textArea-cont" placeholder="Enter your task here">
+        </textarea>
+        <div class="priority-colors-container">
+            <div data-color="lightpink" class="lightpink priority-color active"></div>
+            <div data-color="lightgreen" class="lightgreen priority-color"></div>
+            <div data-color="lightblue" class="lightblue priority-color"></div>
+            <div data-color='black' class="black priority-color"></div>
+        </div>
+
+    </div>
+    <script src="https://unpkg.com/shortid-dist@1.0.5/dist/shortid-2.2.13.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
