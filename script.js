@@ -3,6 +3,25 @@ const task_modal = document.querySelector('.modal-cont');
 const textAreaCont = document.querySelector('.textArea-cont');
 const remove = document.querySelector('.remove');
 let removeAll = document.querySelector('.removeAll');
+let taskArray=[];
+
+//#region local storage Note:Whenever dealing with JSON.parse always use try catch block to handling it.
+if(localStorage.getItem("tickets")){
+
+    try {
+        let tickets = JSON.parse(localStorage.getItem("tickets"));
+        console.log(tickets);
+        tickets.forEach((ticket)=>{
+    
+            createTicket(ticket.ticketColor,ticket.textAreaVal,ticket.ticketid);
+        })
+    } catch (error) {
+        console.log("There seems to be an error in creating ticket");
+        localStorage.removeItem("tickets");
+    }
+   
+}
+//#endregion
 
 //#region  Handling modal-cont Popup
 let flag = false;
@@ -39,7 +58,10 @@ task_modal.addEventListener('keydown',(ev)=>{
     }
 })
 
+
 function createTicket(ticketColor,textAreaVal,ticketid){
+    console.log("Third")
+
     const mainCont = document.querySelector('.main-cont');
     console.log("Third")
 
@@ -54,6 +76,8 @@ function createTicket(ticketColor,textAreaVal,ticketid){
                     `;
 
     mainCont.appendChild(ticketcont);
+    taskArray.push({ticketColor,textAreaVal,ticketid});
+    localStorage.setItem("tickets",JSON.stringify(taskArray));
     task_modal.style.display='none';
     textAreaCont.value='';
 
@@ -96,7 +120,6 @@ let remFlag = false;
 remove.addEventListener('click',(ev)=>{
     remFlag=!remFlag;
     const ticketCont = document.querySelectorAll('.ticket-cont');
-
     if(remFlag){
         remove.style.color="red";
         alert("Delete Tickets Activated")
@@ -107,14 +130,19 @@ remove.addEventListener('click',(ev)=>{
 
     }
     for(let i=0; i<ticketCont.length; i++){
-        removeTickets(ticketCont[i])
+        removeTickets(ticketCont[i]);
     }
 })
 
 function removeTickets(ticketCont){
+       const id = ticketCont.querySelector('.ticket-id').innerText;
+
         ticketCont.addEventListener('click',(ev)=>{
             if(remFlag=== true){
                 ticketCont.remove();
+                const ticketIndex = getTicketIdx(id);
+                taskArray.splice(ticketIndex,1);
+                localStorage.setItem("tickets",JSON.stringify(taskArray));
             }
     })
 }
@@ -157,6 +185,10 @@ function lock(ticketcont){
         lock.addEventListener('click',(ev)=>{
             lockflag=!lockflag;
             const ticketareaEle = ticketcont.querySelector('.ticket-area');
+            let id = ticketcont.querySelector('.ticket-id').innerText;
+
+            const ticketIndex = getTicketIdx(id);
+
             console.log(ticketareaEle)
             if(lockflag){
                 lock.classList.replace('fa-lock','fa-unlock');
@@ -166,6 +198,9 @@ function lock(ticketcont){
                 lock.classList.replace('fa-unlock','fa-lock');
                 ticketareaEle.setAttribute('contenteditable', "false"); 
             }
+
+            taskArray[ticketIndex].textAreaVal = ticketareaEle.innerText;
+            localStorage.setItem("tickets",JSON.stringify(taskArray));
         })
     })
 }
@@ -211,5 +246,18 @@ function ReestPriorityColor(){
             ticketCol[i].parentElement.style.display='block';
         }
     })
+}
+//#endregion
+
+//#region  GetTicket Index
+function getTicketIdx(id) {
+    // find the ticket obj index from my LS.
+    // that is the ticket that needs to be updated.
+
+    let ticketIdx = taskArray.findIndex(function (ticketObj) {
+        return ticketObj.ticketid === id;
+    })
+
+    return ticketIdx;
 }
 //#endregion
