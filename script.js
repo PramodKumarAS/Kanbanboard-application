@@ -10,7 +10,6 @@ if(localStorage.getItem("tickets")){
 
     try {
         let tickets = JSON.parse(localStorage.getItem("tickets"));
-        console.log(tickets);
         tickets.forEach((ticket)=>{
     
             createTicket(ticket.ticketColor,ticket.textAreaVal,ticket.ticketid);
@@ -29,8 +28,13 @@ function handlePopup(){
     
     add_Ele.addEventListener('click',()=>{
         
-        flag=!flag;
-        
+        //flag=!flag;
+        if (flag === true) {
+            flag = false
+        } else {
+            flag = true;
+        }
+    
         if(flag){
             task_modal.style.display ='flex';
         }
@@ -48,22 +52,19 @@ handlePopup();
 //#region  Create Ticket dynamically
 let ticketColor='lightpink  ';
 task_modal.addEventListener('keydown',(ev)=>{
-    console.log(ev)
     if(ev.key==='Shift'){
         let textAreaVal = textAreaCont.value;
         
         //let ticketid =Math.random().toString(36).substring(2);
         const ticketid = shortid()
-        createTicket(ticketColor,textAreaVal,ticketid)
+        createTicket(ticketColor,textAreaVal,ticketid);
     }
 })
 
 
 function createTicket(ticketColor,textAreaVal,ticketid){
-    console.log("Third")
 
     const mainCont = document.querySelector('.main-cont');
-    console.log("Third")
 
     const ticketcont = document.createElement('div');
     ticketcont.classList.add('ticket-cont');
@@ -81,9 +82,9 @@ function createTicket(ticketColor,textAreaVal,ticketid){
     task_modal.style.display='none';
     textAreaCont.value='';
 
-    pickPriority()
-    lock(ticketcont)
-    ReestPriorityColor()
+    pickPriority(ticketcont);
+    lock(ticketcont);
+    ReestPriorityColor();
 }
 //#endregion
 
@@ -98,7 +99,6 @@ colors.forEach(color=>{
 
         color.classList.add('active');
         ticketColor = color.getAttribute('data-color');
-        console.log(ticketColor)
     });
 })
 //#endregion
@@ -108,9 +108,9 @@ removeAll.addEventListener('click',(ev)=>{
    
     const ticketCont = document.querySelectorAll('.ticket-cont');
 
-    console.log(ticketCont)
     ticketCont.forEach(ticket=>{
         ticket.remove();
+        localStorage.removeItem("tickets");
     })
 })
 //#endregion
@@ -120,15 +120,19 @@ let remFlag = false;
 remove.addEventListener('click',(ev)=>{
     remFlag=!remFlag;
     const ticketCont = document.querySelectorAll('.ticket-cont');
-    if(remFlag){
+    if(ticketCont.length===0){
+        alert("No Ticekts found to remove.")
+    }
+
+    else if(remFlag){
         remove.style.color="red";
         alert("Delete Tickets Activated")
     }
 
     else{
         remove.style.color="white";
-
     }
+
     for(let i=0; i<ticketCont.length; i++){
         removeTickets(ticketCont[i]);
     }
@@ -149,30 +153,27 @@ function removeTickets(ticketCont){
 //#endregion
 
 //#region  Change Priority color
-function pickPriority(){
+function pickPriority(ticketcont){
 
     const COLORS =["lightpink","lightgreen","lightblue","black"];
     
-    let ticketPriorityColor_Ele = document.querySelectorAll('.ticket-color');
-    ticketPriorityColor_Ele.forEach(color=>{
-        color.addEventListener('click',(ev)=>{
+    let ticketPriorityColor_Ele = ticketcont.querySelector('.ticket-color');
+    ticketPriorityColor_Ele.addEventListener('click',(ev)=>{
 
-            const currColor = ev.target.style.backgroundColor;
-            console.log(currColor);
+            const currColor = ticketPriorityColor_Ele.style.backgroundColor;
 
             const currColorIndex = COLORS.indexOf(currColor);
-            console.log(currColorIndex)
 
             let nextIndex = (currColorIndex+1)%COLORS.length;
             const nextColor = COLORS[nextIndex];
-            console.log(nextColor)
 
-            color.style.backgroundColor =nextColor;
+            ticketPriorityColor_Ele.style.backgroundColor =nextColor;
 
 
         })
-    })
+    
 }
+
 //#endregion
 
 //#region  locking mechanism
@@ -180,7 +181,6 @@ function lock(ticketcont){
     let lockflag=false;
     
     const lockEle = document.querySelectorAll('.fa-solid');
-    console.log("Second")
     lockEle.forEach(lock=>{
         lock.addEventListener('click',(ev)=>{
             lockflag=!lockflag;
@@ -189,7 +189,6 @@ function lock(ticketcont){
 
             const ticketIndex = getTicketIdx(id);
 
-            console.log(ticketareaEle)
             if(lockflag){
                 lock.classList.replace('fa-lock','fa-unlock');
                 ticketareaEle.setAttribute('contenteditable', "true"); 
@@ -212,14 +211,11 @@ function filterByPriorityColor(){
     colors.forEach(color=>{
         color.addEventListener('click',(ev)=>{
         const selectedColor =color.classList[0];
-        console.log(selectedColor)
 
         const ticketCol = document.querySelectorAll('.ticket-color');
-        console.log(ticketCol)
 
         for(let i=0; i<ticketCol.length; i++){
             const currCol = ticketCol[i].style.backgroundColor;
-            console.log(currCol)
 
             if(currCol===selectedColor){
                 ticketCol[i].parentElement.style.display='block';
@@ -238,7 +234,6 @@ filterByPriorityColor()
 function ReestPriorityColor(){
     const reset = document.querySelector('.reset');
     reset.addEventListener('click',(ev)=>{
-        console.log("Hw")
 
         const ticketCol = document.querySelectorAll('.ticket-color');
 
