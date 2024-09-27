@@ -52,7 +52,8 @@ handlePopup();
 //#region  Create Ticket dynamically
 let ticketColor='lightpink  ';
 task_modal.addEventListener('keydown',(ev)=>{
-    if(ev.key==='Shift'){
+    console.log(ev.key);
+    if(ev.key==='Tab'){
         let textAreaVal = textAreaCont.value;
         
         //let ticketid =Math.random().toString(36).substring(2);

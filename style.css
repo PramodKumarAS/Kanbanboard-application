@@ -1,10 +1,11 @@
 *{
     box-sizing: border-box;
 }
+
 body{
     border: 0;
     margin: 0;
-    background-color:whitesmoke;
+    background-color:#FAFAFA;
     
 }
 
@@ -24,6 +25,7 @@ body{
     height: 40%;
     width: 50px;
 }
+
 .task-color{
     height: 70%;
     width: 300px;
@@ -39,12 +41,15 @@ body{
 #pink{
     background-color: pink;
 }
+
 #green{
     background-color: green;
 }
+
 #white{
     background-color: white;
 }
+
 #yellow{
     background-color: yellow;
 }
@@ -72,6 +77,7 @@ body{
     height: 100%;
     width: 50%;
 }
+
 .add-remove{
     display: flex;
     height: 70%;
@@ -96,6 +102,7 @@ body{
 .black {
     background-color: black;
 }
+
 .modal-cont{
     display: none;
     height: 50vh;
@@ -116,7 +123,6 @@ body{
     resize: none;
     font-size: 20px;
 }
-
 
 .priority-colors-container{
     height: 100%;
@@ -151,9 +157,12 @@ body{
     margin-top: 10px;
     border-radius: 7px;    
     outline: 1px solid black;
+    position: relative; 
 }
+
 .ticket-color{
     height: 1rem;
+    border-radius: 7px 7px 0 0; 
 }
 .ticket-id{
     height: 2rem;
@@ -161,13 +170,21 @@ body{
 }
 
 .ticket-lock{
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 95px;
-    margin-right: 10px;
     font-size: 1.5rem;
+    position: absolute;
+    top:83%; 
+    right: 5px; 
 }
 
+.ticket-area{
+    width: 100%; 
+    height: 75%; 
+    resize: none; 
+    overflow: hidden;
+    cursor: text;       
+    font-size: 15px;
+    caret-color: white;   
+}
 
 #removeAll{
     
@@ -183,14 +200,13 @@ body{
     color: white;
     border-radius: 7px;
     outline: none;
-
 }
 
 .removeAll:focus {
-    box-shadow: 0 0 50px #FF9800; /* Add a glow effect */
-  }
-#filter{
-    
+    box-shadow: 0 0 50px #FF9800; 
+}
+
+#filter{    
     height: 50%;
 }
 
@@ -199,17 +215,52 @@ body{
     background-color: green;
     color: ghostwhite;
     border-radius: 7px;
-
 }
 
 .reset:focus {
-    box-shadow: 0px 0 50px #FF9800; /* Add a glow effect */
-  }
+    box-shadow: 0px 0 50px #FF9800;
+}
 
-  #headline{
+#headline{
     color: gold;
     font-size: 30px;
     display: flex;
     width: 430px;
     justify-content: flex-end;
-  }
+}
+
+  @media (max-width: 600px) {
+    .tool-content {
+        flex-direction: column; 
+        height: auto;
+        gap: 20px; 
+    }
+
+    .task-color, .add-remove {
+        width: 100%; 
+    }
+
+    .ticket-cont {
+        width: 90%; 
+        margin: 10px auto;
+    }
+
+    .ticket-area {
+        height: 50%; 
+    }
+
+    .priority-colors-container {
+        width: 100%; 
+        height: auto; 
+    }
+
+    #headline {
+        font-size: 24px; 
+        width: auto; 
+    }
+
+    .modal-cont {
+        width: 90vw;
+        height: auto; 
+    }
+}
