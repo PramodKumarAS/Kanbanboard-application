@@ -23,19 +23,11 @@ if(localStorage.getItem("tickets")){
 //#endregion
 
 //#region  Handling modal-cont Popup
-let flag = false;
 function handlePopup(){
     
-    add_Ele.addEventListener('click',()=>{
-        
-        //flag=!flag;
-        if (flag === true) {
-            flag = false
-        } else {
-            flag = true;
-        }
-    
-        if(flag){
+    add_Ele.addEventListener('click',()=>{     
+      
+        if(task_modal.style.display ==='none' || !task_modal.style.display ){
             task_modal.style.display ='flex';
         }
         
